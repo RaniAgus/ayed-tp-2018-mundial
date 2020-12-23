@@ -392,7 +392,7 @@ int main(){
 			case 4: goleadoresPorFecha(partidos); break;
 			case 0: return 0; break;
 		}
-		system("pause");
+		cin.get();
 		system("clear");
 	}
 	return 0;

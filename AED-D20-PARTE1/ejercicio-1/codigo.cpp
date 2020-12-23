@@ -1,26 +1,6 @@
-#include <iostream>
-#include <string.h>
-#include <wchar.h>
-#include <locale.h>
-#include <stdio.h>
-#include <iomanip>
+#include "../utils/utils.hpp"
 
 using namespace std;
-const int GRUPOS = 8;
-const int EQUIPOSPORGRUPO = 4;
-
-template<typename T> void write(FILE* f, T v)
-{
-    fwrite(&v,sizeof(T),1,f);
-    return;
-}
-
-struct Seleccion{
-	int bolillero;
-    char nombreDeEquipo[15];
-    char confederacion[10];
-    
-};
 
 Seleccion crearSeleccion(int bolillero, string nombreDeEquipo, string confederacion){
 	Seleccion a;
@@ -93,7 +73,7 @@ int main() {
 	ingresarPaises(paises);
 	mostrarPaises(paises);
 	
-	FILE *f = fopen("../archivos/Mundial.dat","w+b");
+	FILE *f = fopen("../Mundial.dat","w+b");
 	guardarPaises(f, paises);
     fclose(f);
 	

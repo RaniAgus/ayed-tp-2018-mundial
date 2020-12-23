@@ -1,35 +1,6 @@
-#include <iostream>
-#include <string.h>
-#include <wchar.h>
-#include <locale.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <time.h>
-#include <iomanip>
+#include "../utils/utils.hpp"
 
 using namespace std;
-const int GRUPOS = 8;
-const int EQUIPOSPORGRUPO = 4;
-
-template<typename T> T read(FILE* f)
-{
-    T buff;
-    fread(&buff,sizeof(T),1,f);
-    return buff;
-}
-
-struct Seleccion{
-    int bolillero;
-    char nombreDeEquipo[15];
-    char confederacion[10];
-    
-};
-
-struct Equipo{
-    int grupo;
-    char nombreDeEquipo[15];
-    char confederacion[10];
-};
 
 void mostrarPaises(Equipo paises[]){
 	cout<< left << setw(15)<< "PAIS" << setw(15) << "CONFEDERACION" << "GRUPO" <<endl;
@@ -81,26 +52,14 @@ int grupo09(Equipo e1, Equipo e2){
 
 void leerEquipos(Equipo paises[]){    
 	
-	FILE* f;
-	string archivo="";
-    string direccion="../Archivos/Grupo ";
-    char grupo='A';
-    string formato=".dat";
-	
-    int len=0;
 	Seleccion a;
-	for(int i=0; i<GRUPOS; i++){
-    	archivo=direccion+grupo+formato;
-    	const char* c= archivo.c_str();
-		f = fopen(c,"r+b");
+	for(int i = 0; i < GRUPOS; i++) {
+		FILE* f = openGrupo('A' + i, "r+b");
     	for(int j=0; j<EQUIPOSPORGRUPO; j++){
     		a = read<Seleccion>(f);
-    		paises[len] = crearEquipo(i+1, a.nombreDeEquipo, a.confederacion);
-    		len++;
-    		
+    		paises[i * EQUIPOSPORGRUPO + j] = crearEquipo(i + 1, a.nombreDeEquipo, a.confederacion);
 		}
     	fclose(f);
-		grupo++;
 	}
 	
 }
@@ -151,8 +110,6 @@ int main(){
 			default:
 				cout<<"Opcion incorrecta"<<endl;
 		}
-		system("pause");
-		system("clear");
 	}while(menu!=0);
 	
 	

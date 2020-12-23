@@ -1,152 +1,145 @@
-#include <iostream>
-#include <wchar.h>
-#include <locale.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <time.h>
-#include <iomanip>
-
+#include "../utils/utils.hpp"
 
 using namespace std;
-const int GRUPOS = 8;
-const int EQUIPOSPORGRUPO = 4;
 
-template<typename T> void write(FILE* f, T v)
-{
-    fwrite(&v,sizeof(T),1,f);
-    return;
-}
+bool debug = false;
 
-template<typename T> T read(FILE* f)
-{
-    T buff;
-    fread(&buff,sizeof(T),1,f);
-    return buff;
-}
+Seleccion paises[GRUPOS][EQUIPOSPORGRUPO];
 
-struct Seleccion{
-    int bolillero;
-    char nombreDeEquipo[15];
-    char confederacion[10];
-};
-
-void mostrar(Seleccion paises[][EQUIPOSPORGRUPO], int bolilleros){
+void mostrar(int bolillerosAMostrar) {
     char grupo = 65;
-	cout<<"------------------------------------------------------------"<<endl;
-	for(int i=0; i<GRUPOS; i++){
-    	cout<< "GRUPO "<< grupo <<endl;
-    	for(int j=0; j<bolilleros; j++){
-    		cout<< left << setw(15) << paises[i][j].nombreDeEquipo;
+	cout << "------------------------------------------------------------" << endl;
+	for(int i = 0; i < GRUPOS; i++){
+    	cout << "GRUPO "<< grupo <<endl;
+    	for(int j = 0; j < bolillerosAMostrar; j++){
+    		cout << left << setw(15) << paises[i][j].nombreDeEquipo;
 		}
-		cout<<endl;
-		cout<<"------------------------------------------------------------"<<endl;
+		cout << endl;
+		cout << "------------------------------------------------------------" << endl;
 		grupo++;
 	}	
-	cout <<endl;
+	cout << endl;
 }
 
 int confederacionCmp(Seleccion e1, string s2)
 {
 	string s1 = e1.confederacion;
-	return s1>s2?1:s1<s2?-1:0;
+	return s1 > s2 ? 1 : s1 < s2 ? -1 : 0;
 
 } 
 
-int verificarEquipos(Seleccion paises[][EQUIPOSPORGRUPO], int bolillero){
-	
-	int uefa=0, conmebol=0, concacaf=0, afc=0, caf=0, ofc=0;
-	
-	for (int grupo=0; grupo<GRUPOS; grupo++){
-		uefa=0, conmebol=0, concacaf=0, afc=0, caf=0, ofc=0;
-		
-		for(int i=0; i<=bolillero; i++){
-			if(confederacionCmp(paises[grupo][i], "UEFA") == 0){ uefa++; }
-			if(confederacionCmp(paises[grupo][i], "Conmebol") == 0){ conmebol++; }
-			if(confederacionCmp(paises[grupo][i], "Concacaf") == 0){ concacaf++; }
-			if(confederacionCmp(paises[grupo][i], "AFC") == 0){ afc++; }
-			if(confederacionCmp(paises[grupo][i], "CAF") == 0){ caf++; }
-			if(confederacionCmp(paises[grupo][i], "OFC") == 0){ ofc++; }	
+int verificarGrupos(int bolillerosSorteados) {
+	string confederaciones[CONFEDERACIONES] = 
+		{ "UEFA"
+		, "Conmebol"
+		, "Concacaf"
+		, "AFC"
+		, "CAF"
+		, "OFC"
 		}
+	;
+	int cant_limite[CONFEDERACIONES] = { 2, 1, 1, 1, 1, 1 };
+	
+	for (int grupo = 0; grupo < GRUPOS; grupo++) {
+		int cant_equipos[CONFEDERACIONES] = { 0, 0, 0, 0, 0, 0 };
 		
-		if( uefa>2 || conmebol>1 || concacaf>1 || afc>1 || caf>1 || ofc>1){
-			return -1;	
+		for(int bolillero = 0; bolillero < bolillerosSorteados; bolillero++){
+			for(int i = 0; i < CONFEDERACIONES; i++) {
+				if(confederacionCmp(paises[grupo][bolillero], confederaciones[i]) == 0) {
+					cant_equipos[i]++;
+					if(cant_equipos[i] > cant_limite[i]) {
+						return -1;
+					}
+				}
+			}
 		}
 	}
 	return 1;
 }
 
+bool esAnfitrion(int bolillero, int grupo) {
+	return bolillero == 0 && grupo == 0;
+}
 
-void sortear(Seleccion paises[][EQUIPOSPORGRUPO]){
-	Seleccion temp;
-    int equipoelegido = 0;
-    for (int bol=0; bol<EQUIPOSPORGRUPO; bol++){
-    	do {
-	    	for (int grupo=0; grupo<GRUPOS; grupo++){
-	    		if (bol != 0 || grupo != 0){
-					equipoelegido = rand()%(GRUPOS-grupo) + grupo;
-	    			temp = paises[grupo][bol];
-	    			paises[grupo][bol] = paises[equipoelegido][bol];
-	    			paises[equipoelegido][bol] = temp;
+void intercambiar(int grupo1, int grupo2, int bolillero) {
+	Seleccion temp = paises[grupo1][bolillero];
+	paises[grupo1][bolillero] = paises[grupo2][bolillero];
+	paises[grupo2][bolillero] = temp;
+}
+
+void sortear() {
+    for (int bolilleroActual = 0; bolilleroActual < EQUIPOSPORGRUPO; bolilleroActual++){
+    	while(true) {
+	    	for (int grupoASortear = 0; grupoASortear < GRUPOS; grupoASortear++){
+	    		if (!esAnfitrion(bolilleroActual, grupoASortear)) {
+					int equipoElegido = rand() % (GRUPOS - grupoASortear) + grupoASortear;
+					intercambiar(grupoASortear, equipoElegido, bolilleroActual);
 				}   		
 			}	
-		} while( verificarEquipos(paises, bol) < 0 );
-    	cout <<"BOLILLERO "<< bol+1 << " SORTEADO"<<endl;
-	    mostrar( paises, bol+1 );
-	    system("pause");
+			cout << "BOLILLERO " << bolilleroActual + 1 << " SORTEADO" << endl;
+	    	mostrar(bolilleroActual + 1);
+			
+			if(verificarGrupos(bolilleroActual + 1) < 0) {
+				if(debug) {
+					cout << "La conformacion de los grupos no es valida, se volvera a sortear el bolillero" << endl;
+					cin.get();
+					system("clear");
+				}
+			} else {
+				break;
+			}
+		}
+		cin.get();
 		system("clear");
 	}
 	return;
 }
 
-void leerPaises(FILE* f, Seleccion paises[][EQUIPOSPORGRUPO]){
-	for(int i=0; i<GRUPOS; i++){
-    	for(int j=0; j<EQUIPOSPORGRUPO; j++){
+void leerPaises(FILE* f){
+	for(int i = 0; i < GRUPOS; i++){
+    	for(int j = 0; j < EQUIPOSPORGRUPO; j++){
 			paises[i][j] = read<Seleccion>(f);
 		}
 	}	
 }
 
-void guardarGrupos(Seleccion paises[][EQUIPOSPORGRUPO]){
-    FILE* f;
-    string archivo="";
-    string direccion="../archivos/Grupo ";
-    char grupo='A';
-    string formato=".dat";
-	for(int i=0; i<GRUPOS; i++){
-    	archivo=direccion+grupo+formato;
-    	const char* c= archivo.c_str();
-		f = fopen(c,"w+b");
-    	for(int j=0; j<EQUIPOSPORGRUPO; j++){
+void guardarGrupos() {
+	for(int i = 0; i < GRUPOS; i++){
+		FILE* f = openGrupo('A' + i, "w+b");
+    	for(int j = 0; j < EQUIPOSPORGRUPO; j++){
     		write<Seleccion>(f, paises[i][j]);
 		}
     	fclose(f);
-		grupo++;
 	}
 	cout<<"Grupos guardados con exito."<<endl;
 }
 
-int main() {
+int main(int argc, char** argv) {
+	for (int i = 0; i < argc; i++) {
+		if(strcmp(argv[i],"-d") == 0){
+			debug = true;
+			cout << "Modo debug" << endl;
+		}
+	}
+
 	setlocale(LC_ALL, "");
 	srand(time(NULL));
-	Seleccion paises[GRUPOS][EQUIPOSPORGRUPO];
 	
-	FILE* f = fopen("../archivos/Mundial.dat","r+b");
-	leerPaises(f, paises);
+	FILE* f = fopen("../Mundial.dat","r+b");
+	leerPaises(f);
 	fclose(f);
 	
-	cout<<"Pulse cualquier tecla para sortear la fase de grupos."<<endl;
-	system("pause");
-	
-	int menu=0;
-	while(menu==0){
+	cout << "Pulse cualquier tecla para sortear la fase de grupos." << endl;
+	cin.get();
+
+	do {
 		system("clear");
-		sortear(paises);
-    	cout <<"FASE DE GRUPOS SORTEADA"<<endl;
-    	mostrar(paises, EQUIPOSPORGRUPO);
-    	cout <<"Ingresa 0 para volver a sortear. Ingresa cualquier otro numero para guardar y salir."<< endl;
-    	cin>> menu;
-	}	
-	guardarGrupos(paises);
+		sortear();
+    	cout << "FASE DE GRUPOS SORTEADA" << endl;
+    	mostrar(EQUIPOSPORGRUPO);
+    	cout <<"Ingresa enter para guardar y salir. Ingresa cualquier otra tecla para volver a sortear."<< endl;
+	} while (cin.get() != '\n');
+	guardarGrupos();
     
     return 0;
 }
