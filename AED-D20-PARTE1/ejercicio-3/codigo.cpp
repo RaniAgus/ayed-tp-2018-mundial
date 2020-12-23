@@ -32,7 +32,7 @@ struct Equipo{
 };
 
 void mostrarPaises(Equipo paises[]){
-	cout<< left << setw(15)<< "PAÍS" << setw(15) << "CONFEDERACIÓN" << "GRUPO" <<endl;
+	cout<< left << setw(15)<< "PAIS" << setw(15) << "CONFEDERACION" << "GRUPO" <<endl;
 	cout<<"---------------------------------------"<<endl;
     for(int i=0; i<32; i++){
     	cout<< left << setw(15) << paises[i].nombreDeEquipo << setw(15) << paises[i].confederacion <<  paises[i].grupo << endl;
@@ -114,11 +114,11 @@ int main(){
 	int menu=0;
 	
 	do{
-		cout<< "1: Ordenar por número de grupo"<<endl;
+		cout<< "1: Ordenar por numero de grupo"<<endl;
 		cout<< "2: Ordenar por nombre de equipo"<<endl;
-		cout<< "3: Ordenar por confederación"<<endl;
-		cout<< "4: Ordenar por número de grupo y confederación"<<endl;
-		cout<< "5: Ordenar por número de grupo, confederación y nombre de equipo"<<endl;
+		cout<< "3: Ordenar por confederacion"<<endl;
+		cout<< "4: Ordenar por numero de grupo y confederacion"<<endl;
+		cout<< "5: Ordenar por numero de grupo, confederacion y nombre de equipo"<<endl;
 		cout<< "0: Salir"<<endl;
 		cin>>menu;
 		
@@ -149,10 +149,10 @@ int main(){
 			case 0:
 			break;
 			default:
-				cout<<"Opción incorrecta"<<endl;
+				cout<<"Opcion incorrecta"<<endl;
 		}
 		system("pause");
-		system("CLS");
+		system("clear");
 	}while(menu!=0);
 	
 	

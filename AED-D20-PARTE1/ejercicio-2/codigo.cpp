@@ -93,7 +93,7 @@ void sortear(Seleccion paises[][EQUIPOSPORGRUPO]){
     	cout <<"BOLILLERO "<< bol+1 << " SORTEADO"<<endl;
 	    mostrar( paises, bol+1 );
 	    system("pause");
-		system("CLS");
+		system("clear");
 	}
 	return;
 }
@@ -122,7 +122,7 @@ void guardarGrupos(Seleccion paises[][EQUIPOSPORGRUPO]){
     	fclose(f);
 		grupo++;
 	}
-	cout<<"Grupos guardados con �xito."<<endl;
+	cout<<"Grupos guardados con exito."<<endl;
 }
 
 int main() {
@@ -139,11 +139,11 @@ int main() {
 	
 	int menu=0;
 	while(menu==0){
-		system("CLS");
+		system("clear");
 		sortear(paises);
     	cout <<"FASE DE GRUPOS SORTEADA"<<endl;
     	mostrar(paises, EQUIPOSPORGRUPO);
-    	cout <<"Ingresa 0 para volver a sortear. Ingresa cualquier otro n�mero para guardar y salir."<< endl;
+    	cout <<"Ingresa 0 para volver a sortear. Ingresa cualquier otro numero para guardar y salir."<< endl;
     	cin>> menu;
 	}	
 	guardarGrupos(paises);

@@ -292,7 +292,7 @@ void golesPorEquipo(Nodo<Jugador>* partidos[][CANTPARTIDOS]){
 		insertarEquipo(raiz, aux->info);		
 		aux = aux->sig;
 	}
-	system("CLS");
+	system("clear");
 	cout << left << setw(15) << "PAIS" << setw(5) << "GOLES" <<endl;
 	inOrden(raiz);
 	return;
@@ -323,7 +323,7 @@ void goleadores(Nodo<Jugador>* partidos[][CANTPARTIDOS]){
 		}
 	}
 	jug = jugadores;
-	system("CLS");
+	system("clear");
 	cout<< left << setw(20) << "JUGADOR" << setw(5) << "GOLES" <<endl;
 	while(jug!=NULL){
 		cout<< left << setw(20) << jug->info.nombre_jugador << setw(3) << jug->info.goles <<endl;
@@ -358,7 +358,7 @@ void goleadoresPorFecha(Nodo<Jugador>* partidos[][CANTPARTIDOS]){
 		}
 	}
 	aux = fechas;
-	system("CLS");
+	system("clear");
 	while(aux!=NULL){
 		cout<< "GOLES DEL DIA " << (aux->info.fecha)%100 << "/" << ((aux->info.fecha)/100)%100 << "/" << (aux->info.fecha)/10000 << ": " << endl;
 		cout<< left << setw(20) << "JUGADOR" << setw(5) << "GOLES" << endl;
@@ -393,7 +393,7 @@ int main(){
 			case 0: return 0; break;
 		}
 		system("pause");
-		system("CLS");
+		system("clear");
 	}
 	return 0;
 }
