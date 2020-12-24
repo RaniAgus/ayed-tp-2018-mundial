@@ -1,6 +1,13 @@
 # ayed-tps-2018-mundial
 
-Trabajo Práctico anual de Algoritmos y Estructuras de Datos realizado en 2018.
+Refactor del Trabajo Práctico anual de Algoritmos y Estructuras de Datos realizado en 2018, adaptado para que funcione en sistemas operativos tipo Unix. Se puede revisar el código de 2018 en la rama [entrega-original](https://github.com/RaniAgus/ayed-tp-2018-mundial/tree/entrega-original).
+
+## Compilación
+
+Para compilar cada punto alcanza con moverse a la carpeta donde se encuentra cada ejercicio y ejecutar:
+```
+g++ codigo.cpp
+```
 
 ## Integrantes
 
