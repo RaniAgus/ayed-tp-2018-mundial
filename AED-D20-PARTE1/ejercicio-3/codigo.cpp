@@ -1,7 +1,5 @@
 #include "../utils/utils.hpp"
 
-using namespace std;
-
 struct Equipo
 {
     char grupo;
@@ -10,7 +8,7 @@ struct Equipo
 };
 
 void leerEquipos(Equipo paises[]);
-Equipo crearEquipo(int grupo, string nombreDeEquipo, string confederacion);
+Equipo crearEquipo(int grupo, std::string nombreDeEquipo, std::string confederacion);
 
 template <typename T> 
 void ordenar(T arr[], int len, int (*criterio)(T, T));
@@ -31,13 +29,13 @@ int main()
 
     do
     {
-        cout << "1: Ordenar por grupo" << endl;
-        cout << "2: Ordenar por nombre de equipo" << endl;
-        cout << "3: Ordenar por confederacion" << endl;
-        cout << "4: Ordenar por grupo y confederacion" << endl;
-        cout << "5: Ordenar por grupo, confederacion y nombre de equipo" << endl;
-        cout << "0: Salir" << endl;
-        cin >> menu;
+        std::cout << "1: Ordenar por grupo" << std::endl;
+        std::cout << "2: Ordenar por nombre de equipo" << std::endl;
+        std::cout << "3: Ordenar por confederacion" << std::endl;
+        std::cout << "4: Ordenar por grupo y confederacion" << std::endl;
+        std::cout << "5: Ordenar por grupo, confederacion y nombre de equipo" << std::endl;
+        std::cout << "0: Salir" << std::endl;
+        std::cin >> menu;
 
         switch (menu)
         {
@@ -63,7 +61,7 @@ int main()
             continue;
         default:
             system("clear");
-            cout << "Opcion incorrecta" << endl;
+            std::cout << "Opcion incorrecta" << std::endl;
             continue;
         }
         mostrarPaises(paises);
@@ -83,10 +81,10 @@ void leerEquipos(Equipo paises[]) {
         }
         fclose(f);
     }
-    cout << "Datos cargados con éxito" << endl;
+    std::cout << "Datos cargados con éxito" << std::endl;
 }
 
-Equipo crearEquipo(int grupo, string nombreDeEquipo, string confederacion)
+Equipo crearEquipo(int grupo, std::string nombreDeEquipo, std::string confederacion)
 {
     Equipo a;
     a.grupo = 'A' + grupo;
@@ -117,15 +115,15 @@ void ordenar(T arr[], int len, int (*criterio)(T, T))
 
 int nombreAZ(Equipo e1, Equipo e2)
 {
-    string s1 = e1.nombreDeEquipo;
-    string s2 = e2.nombreDeEquipo;
+    std::string s1 = e1.nombreDeEquipo;
+    std::string s2 = e2.nombreDeEquipo;
     return s1 > s2 ? 1 : s1 < s2 ? -1 : 0;
 }
 
 int confederacionAZ(Equipo e1, Equipo e2)
 {
-    string s1 = e1.confederacion;
-    string s2 = e2.confederacion;
+    std::string s1 = e1.confederacion;
+    std::string s2 = e2.confederacion;
     return s1 > s2 ? 1 : s1 < s2 ? -1 : 0;
 }
 
@@ -136,11 +134,11 @@ int grupo09(Equipo e1, Equipo e2)
 
 void mostrarPaises(Equipo paises[])
 {
-    cout << left << setw(15) << "PAIS" << setw(15) << "CONFEDERACION" << "GRUPO" << endl;
-    cout << "---------------------------------------" << endl;
+    std::cout << std::left << std::setw(15) << "PAIS" << std::setw(15) << "CONFEDERACION" << "GRUPO" << std::endl;
+    std::cout << "---------------------------------------" << std::endl;
     for (int i = 0; i < 32; i++)
     {
-        cout << left << setw(15) << paises[i].nombreDeEquipo << setw(15) << paises[i].confederacion << paises[i].grupo << endl;
+        std::cout << std::left << std::setw(15) << paises[i].nombreDeEquipo << std::setw(15) << paises[i].confederacion << paises[i].grupo << std::endl;
     }
-    cout << endl;
+    std::cout << std::endl;
 }

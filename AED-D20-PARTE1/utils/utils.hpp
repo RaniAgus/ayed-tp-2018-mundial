@@ -14,8 +14,6 @@
     #define BOLILLEROS 4
     #define CONFEDERACIONES 6
 
-    using namespace std;
-
     struct Seleccion
     {
         int bolillero;
@@ -23,12 +21,12 @@
         char confederacion[10];
     };
 
-    FILE *open(string path, const char *modo)
+    FILE *open(std::string path, const char *modo)
     {
         FILE *f = fopen(path.c_str(), modo);
         if (f == NULL)
         {
-            cout << "ERROR: No se pudo abrir el archivo " << path << endl;
+            std::cout << "ERROR: No se pudo abrir el archivo " << path << std::endl;
             exit(-1);
         }
 
@@ -37,8 +35,8 @@
 
     FILE *openGrupo(char grupo, const char *modo)
     {
-        string pathInicial = "../Grupo ";
-        string formato = ".dat";
+        std::string pathInicial = "../Grupo ";
+        std::string formato = ".dat";
         return open(pathInicial + grupo + formato, modo);
     }
 

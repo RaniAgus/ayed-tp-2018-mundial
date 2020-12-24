@@ -7,8 +7,6 @@
 #include <stdlib.h>
 #include <iomanip>
 
-using namespace std;
-
 struct Gol
 {
     int id_gol;
@@ -18,12 +16,12 @@ struct Gol
     int id_partido;
 };
 
-FILE *open(string path, const char *modo)
+FILE *open(std::string path, const char *modo)
 {
     FILE *f = fopen(path.c_str(), modo);
     if (f == NULL)
     {
-        cout << "ERROR: No se pudo abrir el archivo " << path << endl;
+        std::cout << "ERROR: No se pudo abrir el archivo " << path << std::endl;
         exit(-1);
     }
 

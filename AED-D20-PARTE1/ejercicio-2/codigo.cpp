@@ -1,7 +1,5 @@
 #include "../utils/utils.hpp"
 
-using namespace std;
-
 bool debug = false;
 
 Seleccion paises[GRUPOS][BOLILLEROS];
@@ -22,7 +20,7 @@ int main(int argc, char **argv)
         if (strcmp(argv[i], "-d") == 0)
         {
             debug = true;
-            cout << "Modo debug" << endl;
+            std::cout << "Modo debug" << std::endl;
         }
     }
 
@@ -30,8 +28,8 @@ int main(int argc, char **argv)
     srand(time(NULL));
 
     obtenerSelecciones();
-    cout << "Pulse cualquier tecla para sortear la fase de grupos." << endl;
-    cin.get();
+    std::cout << "Pulse cualquier tecla para sortear la fase de grupos." << std::endl;
+    std::cin.get();
 
     do
     {
@@ -40,10 +38,10 @@ int main(int argc, char **argv)
         {
             sortearBolillero(i);
         }
-        cout << "FASE DE GRUPOS SORTEADA" << endl;
+        std::cout << "FASE DE GRUPOS SORTEADA" << std::endl;
         mostrarGruposSorteados(BOLILLEROS);
-        cout << "Ingresa enter para guardar y salir. Ingresa cualquier caracter para volver a sortear." << endl;
-    } while (cin.get() != '\n');
+        std::cout << "Ingresa enter para guardar y salir. Ingresa cualquier caracter para volver a sortear." << std::endl;
+    } while (std::cin.get() != '\n');
 
     guardarSorteo();
 
@@ -87,9 +85,9 @@ void sortearBolillero(int bolillero)
             }
         }
     } while (verificarConfederaciones(bolillero + 1) < 0);
-    cout << "BOLILLERO " << bolillero + 1 << " SORTEADO" << endl;
+    std::cout << "BOLILLERO " << bolillero + 1 << " SORTEADO" << std::endl;
     mostrarGruposSorteados(bolillero + 1);
-    cin.get();
+    std::cin.get();
     system("clear");
 }
 
@@ -141,9 +139,9 @@ int verificarConfederaciones(int bolillerosSorteados)
             {
                 if (debug)
                 {
-                    cout << "La conformacion del grupo " << static_cast<unsigned char>('A' + grupo) << " no es valida, se volvera a sortear el bolillero" << endl;
+                    std::cout << "La conformacion del grupo " << static_cast<unsigned char>('A' + grupo) << " no es valida, se volvera a sortear el bolillero" << std::endl;
                     mostrarGruposSorteados(bolillero + 1);
-                    cin.get();
+                    std::cin.get();
                     system("clear");
                 }
                 return -1;
@@ -155,7 +153,7 @@ int verificarConfederaciones(int bolillerosSorteados)
 
 int idConfederacion(Seleccion seleccion)
 {
-    string confederaciones_str[CONFEDERACIONES] =
+    std::string confederaciones_str[CONFEDERACIONES] =
         {"UEFA", "Conmebol", "Concacaf", "AFC", "CAF", "OFC"};
 
     for (int i = 0; i < CONFEDERACIONES; i++)
@@ -176,19 +174,19 @@ int idConfederacion(Seleccion seleccion)
 void mostrarGruposSorteados(int bolillerosAMostrar)
 {
     char grupo = 65;
-    cout << "------------------------------------------------------------" << endl;
+    std::cout << "------------------------------------------------------------" << std::endl;
     for (int i = 0; i < GRUPOS; i++)
     {
-        cout << "GRUPO " << grupo << endl;
+        std::cout << "GRUPO " << grupo << std::endl;
         for (int j = 0; j < bolillerosAMostrar; j++)
         {
-            cout << left << setw(15) << paises[i][j].nombreDeEquipo;
+            std::cout << std::left << std::setw(15) << paises[i][j].nombreDeEquipo;
         }
-        cout << endl;
-        cout << "------------------------------------------------------------" << endl;
+        std::cout << std::endl;
+        std::cout << "------------------------------------------------------------" << std::endl;
         grupo++;
     }
-    cout << endl;
+    std::cout << std::endl;
 }
 
 /**
@@ -207,5 +205,5 @@ void guardarSorteo()
         }
         fclose(f);
     }
-    cout << "Grupos guardados con exito." << endl;
+    std::cout << "Grupos guardados con exito." << std::endl;
 }

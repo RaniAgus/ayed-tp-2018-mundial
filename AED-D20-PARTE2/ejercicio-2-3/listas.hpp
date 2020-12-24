@@ -7,8 +7,6 @@
 #include <stdlib.h>
 #include <iomanip>
 
-using namespace std;
-
 template <typename T>
 struct Nodo
 {

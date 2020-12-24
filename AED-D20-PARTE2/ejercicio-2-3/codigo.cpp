@@ -3,8 +3,6 @@
 #include "estructuras.hpp"
 #include "arboles.hpp"
 
-using namespace std;
-
 #define CANTEQUIPOS 32
 #define CANTPARTIDOS 7
 
@@ -47,13 +45,13 @@ int main()
 			return 0;
 		}
 
-		cout << "GOLES DEL MUNDIAL 2018" << endl;
-		cout << "1: Volver a cargar los datos" << endl;
-		cout << "2: Ver cantidad de goles por equipo" << endl;
-		cout << "3: Ver tabla de goleadores" << endl;
-		cout << "4: Ver los goleadores de cada fecha" << endl;
-		cout << "0: Salir" << endl;
-		cin >> menu;
+		std::cout << "GOLES DEL MUNDIAL 2018" << std::endl;
+		std::cout << "1: Volver a cargar los datos" << std::endl;
+		std::cout << "2: Ver cantidad de goles por equipo" << std::endl;
+		std::cout << "3: Ver tabla de goleadores" << std::endl;
+		std::cout << "4: Ver los goleadores de cada fecha" << std::endl;
+		std::cout << "0: Salir" << std::endl;
+		std::cin >> menu;
 		system("clear");
 	}
 	return 0;
@@ -103,7 +101,7 @@ void cargarArchivo(const char *ruta)
 		lectura = leerSiguiente(f, lectura, &partido, &equipo);
 	}
 	fclose(f);
-	cout << "Datos cargados correctamente." << endl;
+	std::cout << "Datos cargados correctamente." << std::endl;
 }
 
 /**
@@ -147,9 +145,9 @@ void golesPorEquipo()
 		}
 		insertarEnArbol<Equipo>(raiz, crearEquipo(equipo, goles), criterioEquipo);
 	}
-	cout << left << setw(15) << "PAIS" << setw(5) << "GOLES" << endl;
+	std::cout << std::left << std::setw(15) << "PAIS" << std::setw(5) << "GOLES" << std::endl;
 	recorrerArbolInorden<Equipo>(raiz, [](Equipo e) -> void {
-		cout << left << setw(15) << e.nombre << setw(5) << e.goles << endl;
+		std::cout << std::left << std::setw(15) << e.nombre << std::setw(5) << e.goles << std::endl;
 	});
 	liberarArbol(raiz);
 }
@@ -181,12 +179,12 @@ void goleadores()
 			}
 		}
 	}
-	cout << left << setw(20) << "JUGADOR" << setw(5) << "GOLES" << endl;
+	std::cout << std::left << std::setw(20) << "JUGADOR" << std::setw(5) << "GOLES" << std::endl;
 	for (Nodo<Jugador> *jug = jugadores; jug != NULL; jug = jug->sig)
 	{
-		cout << left << setw(20) << jug->info.nombre_jugador << setw(3) << jug->info.goles << endl;
+		std::cout << std::left << std::setw(20) << jug->info.nombre_jugador << std::setw(3) << jug->info.goles << std::endl;
 	}
-	cout << left << setw(20) << "GOLES EN CONTRA" << enContra << endl;
+	std::cout << std::left << std::setw(20) << "GOLES EN CONTRA" << enContra << std::endl;
 	liberarLista<Jugador>(jugadores);
 }
 
@@ -235,11 +233,11 @@ void goleadoresPorFecha()
 
 	for (Nodo<Fecha> *aux = fechas; aux != NULL; aux = aux->sig)
 	{
-		cout << "GOLES DEL DIA " << imprimirFecha(aux->info.fecha) << ": " << endl;
-		cout << left << setw(20) << "JUGADOR" << setw(5) << "GOLES" << endl;
+		std::cout << "GOLES DEL DIA " << imprimirFecha(aux->info.fecha) << ": " << std::endl;
+		std::cout << std::left << std::setw(20) << "JUGADOR" << std::setw(5) << "GOLES" << std::endl;
 		for (Nodo<Jugador> *jug = aux->info.jugadores; jug != NULL; jug = jug->sig)
 		{
-			cout << left << setw(20) << jug->info.nombre_jugador << setw(5) << jug->info.goles << endl;
+			std::cout << std::left << std::setw(20) << jug->info.nombre_jugador << std::setw(5) << jug->info.goles << std::endl;
 		}
 	}
 	liberarLista<Fecha>(fechas);

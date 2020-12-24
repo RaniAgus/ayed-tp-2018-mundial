@@ -1,11 +1,9 @@
 #include "../utils/utils.hpp"
 
-using namespace std;
-
 Seleccion paises[GRUPOS][BOLILLEROS];
 
 void ingresarPaises();
-Seleccion crearSeleccion(int bolillero, string nombreDeEquipo, string confederacion);
+Seleccion crearSeleccion(int bolillero, std::string nombreDeEquipo, std::string confederacion);
 void mostrarPaises();
 void guardarPaises();
 
@@ -55,7 +53,7 @@ void ingresarPaises()
     paises[7][3] = crearSeleccion(4, "Arabia Saudita", "AFC");
 }
 
-Seleccion crearSeleccion(int bolillero, string nombreDeEquipo, string confederacion)
+Seleccion crearSeleccion(int bolillero, std::string nombreDeEquipo, std::string confederacion)
 {
     Seleccion a;
     a.bolillero = bolillero;
@@ -67,19 +65,19 @@ Seleccion crearSeleccion(int bolillero, string nombreDeEquipo, string confederac
 
 void mostrarPaises()
 {
-    cout << "PAISES CLASIFICADOS: " << endl 
-         << endl
-         << left << setw(15) << "PAIS" << setw(15) << "CONFEDERACION"
-         << "BOLILLERO" << endl
-         << "---------------------------------------" << endl;
+    std::cout << "PAISES CLASIFICADOS: " << std::endl 
+         << std::endl
+         << std::left << std::setw(15) << "PAIS" << std::setw(15) << "CONFEDERACION"
+         << "BOLILLERO" << std::endl
+         << "---------------------------------------" << std::endl;
     for (int j = 0; j < BOLILLEROS; j++)
     {
         for (int i = 0; i < GRUPOS; i++)
         {
-            cout << left << setw(15) << paises[i][j].nombreDeEquipo << setw(15) << paises[i][j].confederacion << paises[i][j].bolillero << endl;
+            std::cout << std::left << std::setw(15) << paises[i][j].nombreDeEquipo << std::setw(15) << paises[i][j].confederacion << paises[i][j].bolillero << std::endl;
         }
     }
-    cout << endl;
+    std::cout << std::endl;
 }
 
 void guardarPaises()
@@ -92,6 +90,6 @@ void guardarPaises()
             write<Seleccion>(f, paises[i][j]);
         }
     }
-    cout << "Datos guardados con exito." << endl;
+    std::cout << "Datos guardados con exito." << std::endl;
     fclose(f);
 }

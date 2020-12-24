@@ -1,5 +1,4 @@
 #include "../utils/utils.hpp"
-using namespace std;
 
 Gol crearGol(int id_gol, int cod_equipo, int fecha, const char nombre_jugador[], int id_partido)
 {
@@ -490,13 +489,13 @@ int main()
 
     a = read<Gol>(f);
 
-    cout << "JUGADOR              | GOL | EQUIPO | DIA      | PARTIDO" << endl;
-    cout << "---------------------|-----|--------|----------|--------" << endl;
+    std::cout << "JUGADOR              | GOL | EQUIPO | DIA      | PARTIDO" << std::endl;
+    std::cout << "---------------------|-----|--------|----------|--------" << std::endl;
     while (!feof(f))
     {
         if (strcmp(a.nombre_jugador, ""))
         {
-            cout << left << setw(20) << a.nombre_jugador << " | " << left << setw(3) << a.id_gol << " | " << left << setw(6) << a.cod_equipo << " | " << a.fecha << " | " << setw(7) << a.id_partido << endl;
+            std::cout << std::left << std::setw(20) << a.nombre_jugador << " | " << std::left << std::setw(3) << a.id_gol << " | " << std::left << std::setw(6) << a.cod_equipo << " | " << a.fecha << " | " << std::setw(7) << a.id_partido << std::endl;
         }
         a = read<Gol>(f);
     }
