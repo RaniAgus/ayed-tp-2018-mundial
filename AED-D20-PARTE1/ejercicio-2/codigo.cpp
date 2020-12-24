@@ -9,7 +9,7 @@ Seleccion paises[GRUPOS][BOLILLEROS];
 void obtenerSelecciones();
 void sortearBolillero(int bolillero);
 bool esAnfitrion(int bolillero, int grupo);
-void intercambiar(int grupo1, int grupo2, int bolillero);
+void intercambiarSelecciones(int grupo1, int grupo2, int bolillero);
 int verificarConfederaciones(int bolillerosSorteados);
 int idConfederacion(Seleccion seleccion);
 void mostrarGruposSorteados(int bolillerosAMostrar);
@@ -50,6 +50,12 @@ int main(int argc, char **argv)
     return 0;
 }
 
+/**
+* @NAME obtenerSelecciones
+* @DESC Rellena la matriz global de países leyéndolos desde el archivo de entrada. 
+* Asume que primero se leerá al anfitrión (Rusia) y luego a todos los equipos 
+* restantes ordenados por ranking FIFA.
+*/
 void obtenerSelecciones()
 {
     FILE *f = open("../Mundial.dat", "r+b");
@@ -63,6 +69,11 @@ void obtenerSelecciones()
     fclose(f);
 }
 
+/**
+* @NAME sortearBolillero
+* @DESC Dado un número de bolillero (0-3), ordena los equipos correspondientes
+* bajo el algoritmo selección. El criterio de selección es un número aleatorio. 
+*/
 void sortearBolillero(int bolillero)
 {
     do
@@ -72,7 +83,7 @@ void sortearBolillero(int bolillero)
             if (!esAnfitrion(bolillero, grupoASortear))
             {
                 int equipoElegido = rand() % (GRUPOS - grupoASortear) + grupoASortear;
-                intercambiar(grupoASortear, equipoElegido, bolillero);
+                intercambiarSelecciones(grupoASortear, equipoElegido, bolillero);
             }
         }
     } while (verificarConfederaciones(bolillero + 1) < 0);
@@ -82,18 +93,34 @@ void sortearBolillero(int bolillero)
     system("clear");
 }
 
+/**
+* @NAME esAnfitrion
+* @DESC Devuelve true si el bolillero a sortear es la cabeza de serie del
+* grupo A, para así omitirlo.
+*/
 bool esAnfitrion(int bolillero, int grupo)
 {
     return bolillero == 0 && grupo == 0;
 }
 
-void intercambiar(int grupo1, int grupo2, int bolillero)
+/**
+* @NAME intercambiarSelecciones
+* @DESC Dados dos grupos de un mismo bolillero, los intercambia dentro de
+* la matriz.
+*/
+void intercambiarSelecciones(int grupo1, int grupo2, int bolillero)
 {
     Seleccion temp = paises[grupo1][bolillero];
     paises[grupo1][bolillero] = paises[grupo2][bolillero];
     paises[grupo2][bolillero] = temp;
 }
 
+/**
+* @NAME verificarConfederaciones
+* @DESC Dada una cantidad de bolilleros sorteados, verifica que todos los
+* grupos (filas) cumplan con el límite de equipos de una misma confederación
+* en él.
+*/
 int verificarConfederaciones(int bolillerosSorteados)
 {
     int cant_limite[CONFEDERACIONES] = {2, 1, 1, 1, 1, 1};
@@ -141,6 +168,11 @@ int idConfederacion(Seleccion seleccion)
     return -1;
 }
 
+/**
+* @NAME mostrarGruposSorteados
+* @DESC Dada una cantidad de bolilleros a mostrar, imprime por pantalla la conformación 
+* de los grupos en la matriz hasta esa cantidad
+*/
 void mostrarGruposSorteados(int bolillerosAMostrar)
 {
     char grupo = 65;
@@ -159,6 +191,11 @@ void mostrarGruposSorteados(int bolillerosAMostrar)
     cout << endl;
 }
 
+/**
+* @NAME guardarSorteo
+* @DESC Guarda en un archivo por grupo la conformación de cada uno según la matriz
+* global de países.
+*/
 void guardarSorteo()
 {
     for (int i = 0; i < GRUPOS; i++)
